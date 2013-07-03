@@ -62,11 +62,10 @@ bool WatorApp::OnInit() {
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 
-	glOrtho(0, 640, 480, 0, 1, -1);
+	glOrtho(0, 640, 480, 0, 1, 0);
+	glDisable(GL_DEPTH_TEST);
 
 	glMatrixMode(GL_MODELVIEW);
-
-	glEnable(GL_TEXTURE_2D);
 
 	glLoadIdentity();
 
@@ -77,10 +76,14 @@ void WatorApp::OnLoop() {
 }
 
 void WatorApp::OnRender() {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT);
 	glLoadIdentity();
 
 	glTranslatef(100, 100, 0);
+
+	glBegin(GL_POINTS);
+		glColor3f(1, 0, 0); glVertex2f(150, 150);
+	glEnd();
 
 	glBegin(GL_QUADS);
 		glColor3f(1, 0, 0); glVertex3f(0, 0, 0);
