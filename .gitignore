@@ -60,3 +60,5 @@ Thumbs.db
 *.cd
 *.aps
 /*.dat
+/lib/boost/*
+/include/boost/*

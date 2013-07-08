@@ -36,6 +36,8 @@ bool OpenGLRenderer::init(int w, int h, int z) {
 		return false;
 	}
 
+	SDL_WM_SetCaption("SharkSim", "SharkSim");
+
 	glClearColor(0, 0, 0, 0);
 
 	glViewport(0, 0, w * z, h * z);

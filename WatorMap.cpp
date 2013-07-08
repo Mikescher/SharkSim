@@ -2,15 +2,20 @@
 
 #include "WatorMap.h"
 
-WatorMap::WatorMap(int width, int height)
+WatorMap::WatorMap(int width, int height, int fbt, int sbt, int sst, int threadcount)
 {
 	srand((unsigned int) time(NULL));
 
 	m_width = width;
 	m_height = height;
+	m_fishBreedTime = fbt;
+	m_sharkBreedTime = sbt;
+	m_sharkStarveTime = sst;
 	m_currZyklus = 0;
 
 	createMap();
+
+	initThreads(threadcount);
 }
 
 
@@ -44,35 +49,63 @@ void WatorMap::createMap() {
 	}
 }
 
-void WatorMap::doTick(int fishBreedTime, int sharkBreedTime, int sharkStarveTime) {
+void WatorMap::initThreads(int threads) {
+	m_barrier = new boost::barrier(threads + 1);
+
+	int thread_height = m_height / threads;
+
+	int start = 0;
+	int end = 0;
+
+	for (int i = 0; i < threads; i++) {
+		start = end;
+		end = end + thread_height;
+
+		if (i+1 == threads) // last
+			end = m_height;
+
+		boost::thread *t = new boost::thread(&WatorMap::doTick, this, m_barrier, start, end);
+		m_threadlist.push_back(t);
+	}
+}
+
+void WatorMap::doThreadedTick() {
 	m_currZyklus++;
 
-	for (int x = 0; x < m_width; x++) {
-		for (int y= 0; y < m_height; y++) {
-			if (map[x][y].lastModifiedZyklus != m_currZyklus) {
-				map[x][y].lastModifiedZyklus = m_currZyklus;
+	m_barrier->wait();
+}
 
-				switch(map[x][y].type) {
-				case WCT_FISH:
-					map[x][y].lifeTime = map[x][y].lifeTime + 1;
-					if (map[x][y].lifeTime > fishBreedTime) breedFish(x, y);
-					moveFishRandom(x, y);
-					break;
-				case WCT_SHARK:
-					map[x][y].lifeTime++;
-					map[x][y].eatTime++;
+void WatorMap::doTick(boost::barrier *barrier, int startY, int endY) {
+	for(;;) {
 
-					if (map[x][y].lifeTime > sharkBreedTime) breedShark(x, y);
-					if (map[x][y].eatTime > sharkStarveTime) {
-						clearCell(x, y); // Starve
-					} else {
-						moveSharkRandom(x, y);
+		for (int y = startY; y < endY; y++) {
+			for (int x = 0; x < m_width; x++) {
+				if (map[x][y].lastModifiedZyklus != m_currZyklus) {
+					map[x][y].lastModifiedZyklus = m_currZyklus;
+
+					switch(map[x][y].type) {
+					case WCT_FISH:
+						map[x][y].lifeTime = map[x][y].lifeTime + 1;
+						if (map[x][y].lifeTime > m_fishBreedTime) breedFish(x, y);
+						moveFishRandom(x, y);
+						break;
+					case WCT_SHARK:
+						map[x][y].lifeTime++;
+						map[x][y].eatTime++;
+
+						if (map[x][y].lifeTime > m_sharkBreedTime) breedShark(x, y);
+						if (map[x][y].eatTime > m_sharkStarveTime) {
+							clearCell(x, y); // Starve
+						} else {
+							moveSharkRandom(x, y);
+						}
+
+						break;
 					}
-
-					break;
 				}
 			}
 		}
+		barrier->wait();
 	}
 }
 
