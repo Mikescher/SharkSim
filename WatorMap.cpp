@@ -15,6 +15,9 @@ WatorMap::WatorMap(int width, int height, int fbt, int sbt, int sst, int threadc
 
 	createMap();
 
+	m_graph_fish = new OGLGraph(width*height, height / 4, 1.8, COLOR_GRAPHFISH, width / 2);
+	m_graph_shark = new OGLGraph(width*height, height / 4, 1.8, COLOR_GRAPHSHARK, width / 2);
+
 	initThreads(threadcount);
 }
 
@@ -22,6 +25,10 @@ WatorMap::WatorMap(int width, int height, int fbt, int sbt, int sst, int threadc
 WatorMap::~WatorMap(void)
 {
 	freeDynamicArray(map);
+
+	delete m_barrier;
+	delete m_graph_fish;
+	delete m_graph_shark;
 }
 
 int WatorMap::getWidth() {
@@ -73,6 +80,27 @@ void WatorMap::doThreadedTick() {
 	m_currZyklus++;
 
 	m_barrier->wait();
+
+#ifdef SHOW_GRAPH
+	int sharks = 0;
+	int fish = 0;
+
+	for (int y = 0; y < m_height; y++) {
+		for (int x = 0; x < m_width; x++) {
+			switch(map[x][y].type) {
+			case WCT_FISH:
+				fish++;
+				break;
+			case WCT_SHARK:
+				sharks++;
+				break;
+			}
+		}
+	}
+
+	m_graph_fish->addValue(fish);
+	m_graph_shark->addValue(sharks);
+#endif
 }
 
 void WatorMap::doTick(boost::barrier *barrier, int startY, int endY) {
@@ -223,4 +251,11 @@ int WatorMap::getXForDirection(int direc) {
 
 int WatorMap::getYForDirection(int direc) {
 	return (direc == 1 || direc == 3) ? (0) : ((direc == 0) ? (1) : (-1));  
+}
+
+void WatorMap::renderGraphs() {
+#ifdef SHOW_GRAPH 
+	m_graph_fish->render(5, m_height / 4 + 5);
+	m_graph_shark->render(5, m_height / 4 + 5);
+#endif
 }

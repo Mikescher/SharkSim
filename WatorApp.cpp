@@ -58,6 +58,8 @@ void WatorApp::render() {
 	}
 	 
 	glEnd();
+
+	map->renderGraphs();
 }
 
 void WatorApp::OnEvent(SDL_Event* Event) {

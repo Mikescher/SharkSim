@@ -12,9 +12,9 @@
 const int SIM_SPEED = 0;
 const int THREADCOUNT = 8;
 
-const int MAP_WIDTH = 300;
-const int MAP_HEIGHT = 300;
-const int MAP_ZOOM = 2;
+const int MAP_WIDTH = 600;
+const int MAP_HEIGHT = 600;
+const int MAP_ZOOM = 1;
 
 const int FISH_BREEDTIME = 3;
 const int SHARK_BREEDTIME = 10;

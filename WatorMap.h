@@ -9,6 +9,13 @@
 #include <boost\bind.hpp>
 
 #include "Dynamic2DArray.h"
+#include "Color.h"
+#include "OGLGraph.h"
+
+#define SHOW_GRAPH
+
+const Color COLOR_GRAPHFISH = {1, 1, 1};
+const Color COLOR_GRAPHSHARK = {1, 1, 1};
 
 enum WatorCellType {WCT_FREE, WCT_SHARK, WCT_FISH};
 
@@ -18,12 +25,6 @@ struct WatorCell {
 	WatorCellType type;
 	int lifeTime;
 	int eatTime; // Only for Sharks
-};
-
-struct Color {
-	double r;
-	double g;
-	double b;
 };
 
 class WatorMap
@@ -41,6 +42,9 @@ private:
 	WatorCell **map;
 	std::vector<boost::thread*> m_threadlist;
 	boost::barrier *m_barrier;
+
+	OGLGraph *m_graph_fish;
+	OGLGraph *m_graph_shark;
 private:
 	void createMap();
 	void initThreads(int threads);
@@ -62,6 +66,7 @@ public:
 
 	void doThreadedTick();
 	void doTick(boost::barrier *barrier, int startY, int endY);
+	void renderGraphs();
 
 	WatorCell* getCell(int x, int y);
 	WatorCellType getCellType(int x, int y);
