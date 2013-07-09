@@ -59,7 +59,8 @@ void WatorApp::render() {
 	 
 	glEnd();
 
-	map->renderGraphs();
+	if (GetAsyncKeyState(VK_TAB))
+		map->renderGraphs();
 }
 
 void WatorApp::OnEvent(SDL_Event* Event) {
