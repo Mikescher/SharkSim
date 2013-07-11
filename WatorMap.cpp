@@ -42,6 +42,10 @@ int WatorMap::getHeight() {
 void WatorMap::createMap() {
 	map = allocateDynamicArray<WatorCell>(m_width, m_height);
 
+	resetMap();
+}
+
+void WatorMap::resetMap() {
 	for (int x = 0; x < m_width; x++) {
 		for (int y= 0; y < m_height; y++) {
 			map[x][y].lastModifiedZyklus = 0;

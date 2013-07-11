@@ -21,6 +21,7 @@ int WatorApp::OnExecute() {
             OnEvent(&Event);
         }
 
+		if (GetAsyncKeyState(VK_SPACE)) map->resetMap();
 		map->doThreadedTick();
 
 		renderer->startRender();
@@ -66,5 +67,5 @@ void WatorApp::render() {
 void WatorApp::OnEvent(SDL_Event* Event) {
     if(Event->type == SDL_QUIT) {
         Running = false;
-    }
+	}
 }

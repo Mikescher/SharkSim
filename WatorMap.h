@@ -64,6 +64,8 @@ public:
 	WatorMap(int width, int height, int fbt, int sbt, int sst, int threadcount);
 	~WatorMap(void);
 
+	void resetMap();
+
 	void doThreadedTick();
 	void doTick(boost::barrier *barrier, int startY, int endY);
 	void renderGraphs();
