@@ -21,8 +21,8 @@ int WatorApp::OnExecute() {
             OnEvent(&Event);
         }
 
-		if (GetAsyncKeyState(VK_SPACE)) map->resetMap();
-		map->doThreadedTick();
+		if (GetAsyncKeyState(VK_RETURN)) map->resetMap();
+		if (! GetAsyncKeyState(VK_SPACE)) map->doThreadedTick();
 
 		renderer->startRender();
 		render();
