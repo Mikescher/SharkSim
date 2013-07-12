@@ -55,12 +55,12 @@ void WatorMap::resetMap() {
 
 			map[x][y].type = WCT_FREE;
 			
-			if (rand() % 10 == 1) {
+			if (rand() % 10000 < PERC_FISH) {
 				map[x][y].type = WCT_FISH;
 				map[x][y].lifeTime = rand() % FISH_BREEDTIME;
 			}
 
-			if (rand() % 100 == 1) {
+			if (rand() % 10000 < PERC_SHARK) {
 				map[x][y].lifeTime = rand() % SHARK_BREEDTIME;
 				map[x][y].type = WCT_SHARK;
 			}

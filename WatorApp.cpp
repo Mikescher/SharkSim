@@ -24,7 +24,7 @@ int WatorApp::OnExecute() {
 		if (GetAsyncKeyState(VK_RETURN)) map->resetMap();
 		if (! GetAsyncKeyState(VK_SPACE) || (GetAsyncKeyState(VK_RIGHT) && ! wasLeftKeyPressed)) map->doThreadedTick();
 
-		wasLeftKeyPressed = GetAsyncKeyState(VK_RIGHT); 
+		wasLeftKeyPressed = GetAsyncKeyState(VK_RIGHT) != 0; 
 
 		renderer->startRender();
 		render();
