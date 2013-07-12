@@ -75,6 +75,8 @@ void WatorApp::OnEvent(SDL_Event* Event) {
 }
 
 void WatorApp::printSettings() {
+	using namespace std;
+
 	cout << "SharkSim (www.mikescher.de)" << endl;
 	cout << endl;
 	cout << "SHOW GRAPH: " << ((IS_SHOW_GRAPH) ? ("true") : ("false")) << endl;
