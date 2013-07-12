@@ -24,3 +24,9 @@ const int PERC_FISH = 1000;
 const Color COLOR_WATER = {0, 0.835, 1};
 const Color COLOR_FISH = {0, 1, 0.4};
 const Color COLOR_SHARK = {1, 0, 0};
+
+#ifdef SHOW_GRAPH
+const boolean IS_SHOW_GRAPH = true;
+#else
+const boolean IS_SHOW_GRAPH = false;
+#endif

@@ -9,8 +9,6 @@
 #include <gl/gl.h>
 #include <gl/glu.h>
 
-#include "const.h"
-
 class WatorApp {
 private:
 	OpenGLRenderer *renderer;
@@ -19,6 +17,8 @@ private:
 	bool wasLeftKeyPressed;
 
 	bool Running;
+private:
+	void printSettings();
 public:
 	WatorApp();
 	int OnExecute();
