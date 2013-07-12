@@ -90,6 +90,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Color.h" />
+    <ClInclude Include="const.h" />
     <ClInclude Include="Dynamic2DArray.h" />
     <ClInclude Include="OGLGraph.h" />
     <ClInclude Include="OpenGLRenderer.h" />

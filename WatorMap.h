@@ -12,10 +12,7 @@
 #include "Color.h"
 #include "OGLGraph.h"
 
-#define SHOW_GRAPH
-
-const Color COLOR_GRAPHFISH = {1, 1, 1};
-const Color COLOR_GRAPHSHARK = {1, 1, 1};
+#include "const.h"
 
 enum WatorCellType {WCT_FREE, WCT_SHARK, WCT_FISH};
 
